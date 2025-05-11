@@ -73,13 +73,13 @@ export default function AirdropTool() {
         </div>
         
         <div className="md:col-span-2">
-          <Card className="max-w-md mx-auto">
-            <CardHeader>
-              <CardTitle>Solana Airdrop</CardTitle>
+          <Card className="max-w-md mx-auto border-purple-200 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+              <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Solana Airdrop</CardTitle>
               <CardDescription>Request SOL tokens on Devnet for testing</CardDescription>
             </CardHeader>
             
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 pt-6">
               {networkType !== WalletAdapterNetwork.Devnet && (
                 <Alert variant="destructive" className="bg-amber-50 text-amber-800 border border-amber-200">
                   <AlertDescription>
@@ -100,6 +100,7 @@ export default function AirdropTool() {
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
                     disabled={isLoading || !connected || networkType !== WalletAdapterNetwork.Devnet}
+                    className="border-blue-100 focus:border-blue-300"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm text-gray-500">
                     SOL
@@ -136,6 +137,7 @@ export default function AirdropTool() {
                 onClick={requestAirdrop} 
                 disabled={isLoading || !connected || networkType !== WalletAdapterNetwork.Devnet}
                 className="w-full"
+                variant="gradientGreen"
               >
                 {isLoading ? "Processing..." : "Request Airdrop"}
               </Button>
@@ -143,9 +145,9 @@ export default function AirdropTool() {
           </Card>
           
           <div className="mt-6 max-w-md mx-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">What is an Airdrop?</CardTitle>
+            <Card className="border-purple-100 shadow-md">
+              <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+                <CardTitle className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">What is an Airdrop?</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600">

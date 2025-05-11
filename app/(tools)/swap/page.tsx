@@ -114,13 +114,13 @@ export default function Swap() {
         </div>
         
         <div className="md:col-span-2">
-          <Card className="max-w-md mx-auto">
-            <CardHeader>
-              <CardTitle>Swap Tokens</CardTitle>
+          <Card className="max-w-md mx-auto border-purple-200 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+              <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Swap Tokens</CardTitle>
               <CardDescription>Exchange SOL for stablecoins with Jupiter aggregator</CardDescription>
             </CardHeader>
             
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 pt-6">
               <div className="space-y-2">
                 <Label htmlFor="token-type">Select Output Token</Label>
                 <RadioGroup
@@ -129,11 +129,11 @@ export default function Swap() {
                   onValueChange={setOutputToken}
                   className="flex space-x-2"
                 >
-                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2">
+                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2 hover:border-blue-300 transition-colors">
                     <RadioGroupItem value="usdc" id="usdc" />
                     <Label htmlFor="usdc" className="cursor-pointer">USDC</Label>
                   </div>
-                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2">
+                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2 hover:border-blue-300 transition-colors">
                     <RadioGroupItem value="usdt" id="usdt" />
                     <Label htmlFor="usdt" className="cursor-pointer">USDT</Label>
                   </div>
@@ -150,6 +150,7 @@ export default function Swap() {
                   type="number" 
                   value={amount || ""} 
                   onChange={(e) => setAmount(Number(e.target.value))} 
+                  className="border-blue-100 focus:border-blue-300"
                 />
               </div>
               
@@ -157,21 +158,21 @@ export default function Swap() {
                 <Label>Slippage Tolerance</Label>
                 <div className="flex items-center gap-2">
                   <Button 
-                    variant={slippage === 50 ? "default" : "outline"} 
+                    variant={slippage === 50 ? "gradient" : "outline"} 
                     onClick={() => setSlippage(50)}
                     className="flex-1"
                   >
                     0.5%
                   </Button>
                   <Button 
-                    variant={slippage === 80 ? "default" : "outline"} 
+                    variant={slippage === 80 ? "gradient" : "outline"} 
                     onClick={() => setSlippage(80)}
                     className="flex-1"
                   >
                     0.8%
                   </Button>
                   <Button 
-                    variant={slippage === 100 ? "default" : "outline"} 
+                    variant={slippage === 100 ? "gradient" : "outline"} 
                     onClick={() => setSlippage(100)}
                     className="flex-1"
                   >
@@ -197,6 +198,7 @@ export default function Swap() {
                 onClick={swap} 
                 disabled={isLoading || !wallet.connected} 
                 className="w-full"
+                variant="gradient"
               >
                 {isLoading ? "Processing..." : wallet.connected ? `Swap SOL → ${getOutputSymbol()}` : "Connect wallet to swap"}
               </Button>

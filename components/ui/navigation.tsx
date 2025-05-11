@@ -20,7 +20,7 @@ export function Navigation() {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center w-full py-2 px-4 bg-white border-b">
       <div className="mb-2 sm:mb-0">
-        <Link href="/" className="text-lg font-bold">
+        <Link href="/" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 text-lg">
           AeroFlux
         </Link>
       </div>
@@ -35,7 +35,7 @@ export function Navigation() {
               className={cn(
                 "px-2 py-1 text-sm font-medium rounded-md transition-colors",
                 isActive
-                  ? "bg-white text-slate-900 shadow-sm"
+                  ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-sm"
                   : "text-slate-700 hover:text-slate-900 hover:bg-white/50"
               )}
             >
@@ -53,8 +53,8 @@ export function Navigation() {
             </div>
           </div>
         )}
-        <div className="border hover:border-slate-900 rounded">
-          <WalletMultiButton style={{ padding: '4px 8px', height: 'auto', fontSize: '14px' }} />
+        <div className="border border-transparent hover:border-slate-900 rounded overflow-hidden">
+          <WalletMultiButton style={{ padding: '4px 8px', height: 'auto', fontSize: '14px', background: 'linear-gradient(to right, #7c3aed, #3b82f6)' }} />
         </div>
       </div>
     </div>

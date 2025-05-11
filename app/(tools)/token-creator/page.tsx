@@ -50,86 +50,86 @@ export default function TokenCreator() {
         try {
             setIsLoading(true);
             setTxStatus("Generating token...");
-            
+        
             // console.log(tokenName, tokenSymbol, tokenImage, tokenDecimals, tokenTotalSupply);
-            
-            const keypair = Keypair.generate();
-            const metadata = {
-                mint: keypair.publicKey,
-                name: tokenName,
-                symbol: tokenSymbol,
-                uri: tokenImage,
-                additionalMetadata: [],
-            }
-            const mintLen = getMintLen([ExtensionType.MetadataPointer]);
-            const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
-            const lamports = await connection.getMinimumBalanceForRentExemption(mintLen + metadataLen);
+        
+        const keypair = Keypair.generate();
+        const metadata = {
+            mint: keypair.publicKey,
+            name: tokenName,
+            symbol: tokenSymbol,
+            uri: tokenImage,
+            additionalMetadata: [],
+        }
+        const mintLen = getMintLen([ExtensionType.MetadataPointer]);
+        const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
+        const lamports = await connection.getMinimumBalanceForRentExemption(mintLen + metadataLen);
 
             setTxStatus("Creating token on blockchain...");
-            const transaction = new Transaction().add(
-                SystemProgram.createAccount({
-                    fromPubkey: wallet.publicKey!,
-                    newAccountPubkey: keypair.publicKey,
-                    space: mintLen,
-                    lamports,
-                    programId: TOKEN_2022_PROGRAM_ID,
-                }),
-                createInitializeMetadataPointerInstruction(
-                    keypair.publicKey,
-                    wallet.publicKey!,
-                    keypair.publicKey,
-                    TOKEN_2022_PROGRAM_ID,
-                ),
-                createInitializeMintInstruction(keypair.publicKey, tokenDecimals, wallet.publicKey!, wallet.publicKey!, TOKEN_2022_PROGRAM_ID),
-                createInitializeInstruction({
-                    programId: TOKEN_2022_PROGRAM_ID,
-                    mint: keypair.publicKey,
-                    metadata: keypair.publicKey,
-                    name: metadata.name,
-                    symbol: metadata.symbol,
-                    uri: metadata.uri,
-                    mintAuthority: wallet.publicKey!,
-                    updateAuthority: wallet.publicKey!,
-                }),
-            );
-
-            const recentBlockhash = await connection.getLatestBlockhash();
-            transaction.recentBlockhash = recentBlockhash.blockhash;
-            transaction.feePayer = wallet.publicKey!;
-            transaction.partialSign(keypair);
-            
-            setTxStatus("Sending transaction...");
-            let response = await wallet.sendTransaction(transaction, connection);
-            // console.log(response);
-            
-            setTxStatus("Creating token account...");
-            const associatedToken = getAssociatedTokenAddressSync(
+        const transaction = new Transaction().add(
+            SystemProgram.createAccount({
+                fromPubkey: wallet.publicKey!,
+                newAccountPubkey: keypair.publicKey,
+                space: mintLen,
+                lamports,
+                programId: TOKEN_2022_PROGRAM_ID,
+            }),
+            createInitializeMetadataPointerInstruction(
                 keypair.publicKey,
                 wallet.publicKey!,
-                false,
+                keypair.publicKey,
                 TOKEN_2022_PROGRAM_ID,
-            );
+            ),
+            createInitializeMintInstruction(keypair.publicKey, tokenDecimals, wallet.publicKey!, wallet.publicKey!, TOKEN_2022_PROGRAM_ID),
+            createInitializeInstruction({
+                programId: TOKEN_2022_PROGRAM_ID,
+                mint: keypair.publicKey,
+                metadata: keypair.publicKey,
+                name: metadata.name,
+                symbol: metadata.symbol,
+                uri: metadata.uri,
+                mintAuthority: wallet.publicKey!,
+                updateAuthority: wallet.publicKey!,
+            }),
+        );
+
+        const recentBlockhash = await connection.getLatestBlockhash();
+        transaction.recentBlockhash = recentBlockhash.blockhash;
+        transaction.feePayer = wallet.publicKey!;
+        transaction.partialSign(keypair);
             
+            setTxStatus("Sending transaction...");
+        let response = await wallet.sendTransaction(transaction, connection);
+            // console.log(response);
+
+            setTxStatus("Creating token account...");
+        const associatedToken = getAssociatedTokenAddressSync(
+            keypair.publicKey,
+            wallet.publicKey!,
+            false,
+            TOKEN_2022_PROGRAM_ID,
+        );
+        
             // console.log(associatedToken.toBase58());
-            
-            const transaction2 = new Transaction().add(
-                createAssociatedTokenAccountInstruction(
-                    wallet.publicKey!,
-                    associatedToken,
-                    wallet.publicKey!,
-                    keypair.publicKey,
-                    TOKEN_2022_PROGRAM_ID,
-                ),
-            );
-            
-            await wallet.sendTransaction(transaction2, connection);
-            
+        
+        const transaction2 = new Transaction().add(
+            createAssociatedTokenAccountInstruction(
+                wallet.publicKey!,
+                associatedToken,
+                wallet.publicKey!,
+                keypair.publicKey,
+                TOKEN_2022_PROGRAM_ID,
+            ),
+        );
+        
+        await wallet.sendTransaction(transaction2, connection);
+        
             setTxStatus("Minting initial supply...");
-            const transaction3 = new Transaction().add(
-                createMintToInstruction(keypair.publicKey, associatedToken, wallet.publicKey!, 1000000000, [], TOKEN_2022_PROGRAM_ID)
-            );
-            
-            await wallet.sendTransaction(transaction3, connection);
+        const transaction3 = new Transaction().add(
+            createMintToInstruction(keypair.publicKey, associatedToken, wallet.publicKey!, 1000000000, [], TOKEN_2022_PROGRAM_ID)
+        );
+        
+        await wallet.sendTransaction(transaction3, connection);
             
             const txUrl = `https://solscan.io/token/${keypair.publicKey.toString()}`;
             setTxLink(txUrl);
@@ -148,9 +148,9 @@ export default function TokenCreator() {
                 <div className="md:col-span-1">
                     <WalletInfo />
                     
-                    <Card className="mb-6">
-                        <CardHeader>
-                            <CardTitle>Network Settings</CardTitle>
+                    <Card className="mb-6 border-purple-200 shadow-lg">
+                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+                            <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Network Settings</CardTitle>
                             <CardDescription>Select the network to create tokens on</CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -160,11 +160,11 @@ export default function TokenCreator() {
                                 </span>
                                 <Button 
                                     onClick={toggleNetwork}
-                                    variant="outline"
+                                    variant={networkType === WalletAdapterNetwork.Devnet ? "gradient" : "gradientGreen"}
                                     size="sm"
                                     className="flex items-center gap-2"
                                 >
-                                    <div className={`w-3 h-3 rounded-full ${networkType === WalletAdapterNetwork.Devnet ? "bg-blue-500" : "bg-green-500"}`}></div>
+                                    <div className={`w-3 h-3 rounded-full ${networkType === WalletAdapterNetwork.Devnet ? "bg-white" : "bg-white"}`}></div>
                                     Switch to {networkType === WalletAdapterNetwork.Devnet ? "Mainnet" : "Devnet"}
                                 </Button>
                             </div>
@@ -173,13 +173,13 @@ export default function TokenCreator() {
                 </div>
                 
                 <div className="md:col-span-2">
-                    <Card className="max-w-md mx-auto">
-                        <CardHeader>
-                            <CardTitle>Token Creator</CardTitle>
+                    <Card className="max-w-md mx-auto border-purple-200 shadow-lg">
+                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+                            <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Token Creator</CardTitle>
                             <CardDescription>Create your own SPL token on Solana {networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"}</CardDescription>
                         </CardHeader>
                         
-                        <CardContent className="space-y-4">
+                        <CardContent className="space-y-4 pt-6">
                             <div className="space-y-2">
                                 <Label htmlFor="tokenName">Token Name</Label>
                                 <Input 
@@ -188,6 +188,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., My Awesome Token" 
                                     value={tokenName}
                                     onChange={(e) => setTokenName(e.target.value)}
+                                    className="border-blue-100 focus:border-blue-300"
                                 />
                             </div>
                             
@@ -199,6 +200,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., MAT" 
                                     value={tokenSymbol}
                                     onChange={(e) => setTokenSymbol(e.target.value)}
+                                    className="border-blue-100 focus:border-blue-300"
                                 />
                             </div>
                             
@@ -210,6 +212,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., https://example.com/image.png" 
                                     value={tokenImage}
                                     onChange={(e) => setTokenImage(e.target.value)}
+                                    className="border-blue-100 focus:border-blue-300"
                                 />
                             </div>
                             
@@ -223,6 +226,7 @@ export default function TokenCreator() {
                                     max={9}
                                     value={tokenDecimals || ""}
                                     onChange={(e) => setTokenDecimals(Number(e.target.value))}
+                                    className="border-blue-100 focus:border-blue-300"
                                 />
                             </div>
                             
@@ -234,7 +238,7 @@ export default function TokenCreator() {
                                             View token
                                         </a>
                                     )}
-                                </div>
+            </div>
                             )}
                         </CardContent>
                         
@@ -243,6 +247,7 @@ export default function TokenCreator() {
                                 onClick={createToken} 
                                 disabled={isLoading || !wallet.connected}
                                 className="w-full"
+                                variant="gradient"
                             >
                                 {isLoading ? "Creating token..." : wallet.connected ? "Create Token" : "Connect wallet to create token"}
                             </Button>
