@@ -51,7 +51,7 @@ export default function TokenCreator() {
             setIsLoading(true);
             setTxStatus("Generating token...");
             
-            console.log(tokenName, tokenSymbol, tokenImage, tokenDecimals, tokenTotalSupply);
+            // console.log(tokenName, tokenSymbol, tokenImage, tokenDecimals, tokenTotalSupply);
             
             const keypair = Keypair.generate();
             const metadata = {
@@ -100,7 +100,7 @@ export default function TokenCreator() {
             
             setTxStatus("Sending transaction...");
             let response = await wallet.sendTransaction(transaction, connection);
-            console.log(response);
+            // console.log(response);
             
             setTxStatus("Creating token account...");
             const associatedToken = getAssociatedTokenAddressSync(
@@ -110,7 +110,7 @@ export default function TokenCreator() {
                 TOKEN_2022_PROGRAM_ID,
             );
             
-            console.log(associatedToken.toBase58());
+            // console.log(associatedToken.toBase58());
             
             const transaction2 = new Transaction().add(
                 createAssociatedTokenAccountInstruction(

@@ -19,9 +19,9 @@ const tools = [
     name: "Airdrop",
     description: "Request SOL tokens on Devnet for testing",
     href: "/airdrop",
-    icon: "🚰"
+    icon: "💸"
   },
-  // Add more tools here as they become available
+ 
 ];
 
 export default function Home() {

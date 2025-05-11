@@ -10,9 +10,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from '@/components/ui/label';
 import { WalletInfo } from '@/components/ui/wallet-info';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL || "https://api.devnet.solana.com";
-console.log(RPC_URL);
+// console.log(RPC_URL);
 
 export default function Swap() {
   // It is recommended that you use your own RPC endpoint.
@@ -29,11 +30,20 @@ export default function Swap() {
   const [isLoading, setIsLoading] = useState(false);
   const [txStatus, setTxStatus] = useState("");
   const [txLink, setTxLink] = useState("");
+  const [outputToken, setOutputToken] = useState("usdc");
 
   const finalAmount = (amount * 1_000_000_000).toString();
   const finalSlippage = slippage.toString();
 
   const wallet = useWallet();
+  
+  const getOutputMint = () => {
+    return outputToken === "usdc" ? USDC_MINT : USDT_MINT;
+  };
+  
+  const getOutputSymbol = () => {
+    return outputToken === "usdc" ? "USDC" : "USDT";
+  };
   
   async function swap() {
     if (!amount || amount <= 0) {
@@ -45,26 +55,28 @@ export default function Swap() {
       setIsLoading(true);
       setTxStatus("Fetching quote...");
       
+      const outputMint = getOutputMint();
+      
       const response = await axios.get(
-        `https://quote-api.jup.ag/v6/quote?inputMint=${SOL_MINT}&outputMint=${USDC_MINT}&amount=${finalAmount}&slippageBps=${finalSlippage}`
+        `https://quote-api.jup.ag/v6/quote?inputMint=${SOL_MINT}&outputMint=${outputMint}&amount=${finalAmount}&slippageBps=${finalSlippage}`
       );
       const quoteResponse = response.data;
-      console.log(quoteResponse);
+      // console.log(quoteResponse);
       
       setTxStatus("Creating swap transaction...");
       const { data: { swapTransaction } } = await axios.post('https://quote-api.jup.ag/v6/swap', {
         quoteResponse,
         userPublicKey: wallet.publicKey!.toString(),
       });
-      console.log(swapTransaction);
+      // console.log(swapTransaction);
 
       const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
       var transaction = VersionedTransaction.deserialize(swapTransactionBuf);
-      console.log(transaction);
+      // console.log(transaction);
 
       setTxStatus("Sending transaction...");
       let response2 = await wallet.sendTransaction(transaction, connection);
-      console.log(response2);
+      // console.log(response2);
       
       setTxStatus("Confirming transaction...");
       // get the latest block hash
@@ -105,10 +117,29 @@ export default function Swap() {
           <Card className="max-w-md mx-auto">
             <CardHeader>
               <CardTitle>Swap Tokens</CardTitle>
-              <CardDescription>Exchange SOL for USDC with Jupiter aggregator</CardDescription>
+              <CardDescription>Exchange SOL for stablecoins with Jupiter aggregator</CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="token-type">Select Output Token</Label>
+                <RadioGroup
+                  defaultValue="usdc"
+                  value={outputToken}
+                  onValueChange={setOutputToken}
+                  className="flex space-x-2"
+                >
+                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2">
+                    <RadioGroupItem value="usdc" id="usdc" />
+                    <Label htmlFor="usdc" className="cursor-pointer">USDC</Label>
+                  </div>
+                  <div className="flex items-center space-x-2 border rounded-md px-3 py-2">
+                    <RadioGroupItem value="usdt" id="usdt" />
+                    <Label htmlFor="usdt" className="cursor-pointer">USDT</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              
               <div className="space-y-2">
                 <Label htmlFor="amount">Amount (SOL)</Label>
                 <Input 
@@ -167,7 +198,7 @@ export default function Swap() {
                 disabled={isLoading || !wallet.connected} 
                 className="w-full"
               >
-                {isLoading ? "Processing..." : wallet.connected ? "Swap SOL → USDC" : "Connect wallet to swap"}
+                {isLoading ? "Processing..." : wallet.connected ? `Swap SOL → ${getOutputSymbol()}` : "Connect wallet to swap"}
               </Button>
             </CardFooter>
           </Card>
