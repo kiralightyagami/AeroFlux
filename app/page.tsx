@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { Github, Twitter, Linkedin } from "lucide-react";
 
 type ToolType = {
   name: string;
@@ -37,9 +38,22 @@ const tools: ToolType[] = [
 export default function Home() {
   return (
     <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-10">
-        <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 tracking-tight">AeroFlux</h1>
-        <p className="text-xl text-muted-foreground">A powerful suite of Solana tools</p>
+      <div className="relative">
+        <div className="absolute top-0 right-0 flex space-x-3">
+          <a href="https://github.com/kiralightyagami/AeroFlux" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
+            <Github size={24} />
+          </a>
+          <a href="https://x.com/ShrivasAsvin" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
+            <Twitter size={24} />
+          </a>
+          <a href="https://www.linkedin.com/in/asvin-shrivas/" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
+            <Linkedin size={24} />
+          </a>
+        </div>
+        <div className="text-center mb-10 pt-10">
+          <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 tracking-tight">AeroFlux</h1>
+          <p className="text-xl text-muted-foreground">A powerful suite of Solana tools</p>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
@@ -118,6 +132,7 @@ export default function Home() {
         
         <div className="text-center mt-16 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} AeroFlux. Built for the Solana ecosystem.</p>
+          <p className="mt-2">Created by — Asvin Shrivas</p>
         </div>
       </footer>
     </div>
