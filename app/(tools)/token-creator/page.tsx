@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react";
 import { pack } from "@solana/spl-token-metadata";
-import { Connection, Keypair, SystemProgram, Transaction, clusterApiUrl } from "@solana/web3.js";
+import { Keypair, SystemProgram, Transaction,  } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { 
   createAssociatedTokenAccountInstruction, 
@@ -13,11 +13,11 @@ import {
   createInitializeMintInstruction,
   createMintToInstruction, 
   getAssociatedTokenAddressSync, 
-  getMinimumBalanceForRentExemptMint,
+  
   getMintLen,
   ExtensionType,
   TOKEN_2022_PROGRAM_ID,
-  TOKEN_PROGRAM_ID,
+ 
   TYPE_SIZE,
   LENGTH_SIZE
 } from "@solana/spl-token";
@@ -26,13 +26,13 @@ import { Label } from "@/components/ui/label";
 import { WalletInfo } from "@/components/ui/wallet-info";
 import { useWalletContext } from "@/components/WalletContext";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import Image from "next/image";
 
 export default function TokenCreator() {
     const [tokenName, setTokenName] = useState("");
     const [tokenSymbol, setTokenSymbol] = useState("");
     const [tokenImage, setTokenImage] = useState("");
     const [tokenDecimals, setTokenDecimals] = useState(0);
-    const [tokenTotalSupply, setTokenTotalSupply] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [txStatus, setTxStatus] = useState("");
     const [txLink, setTxLink] = useState("");
@@ -148,23 +148,45 @@ export default function TokenCreator() {
                 <div className="md:col-span-1">
                     <WalletInfo />
                     
-                    <Card className="mb-6 border-purple-200 shadow-lg">
-                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+                    <Card className="mb-6 border-purple-200 dark:border-purple-900 shadow-lg dark:shadow-gray-900/20">
+                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/40 dark:to-blue-950/40">
+                            <div className="flex items-center gap-2">
+                                <Image 
+                                    src={networkType === WalletAdapterNetwork.Devnet ? "/devnet.svg" : "/mainnet.svg"} 
+                                    width={24} 
+                                    height={24} 
+                                    alt={networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"} 
+                                />
                             <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Network Settings</CardTitle>
-                            <CardDescription>Select the network to create tokens on</CardDescription>
+                            </div>
+                            <CardDescription className="dark:text-gray-400">Select the network to create tokens on</CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <div className="flex items-center justify-between">
+                        <CardContent className="space-y-4 pt-2">
+                            <div className="flex flex-col space-y-4">
+                                <div className="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-800">
+                                    <div className="flex items-center gap-2">
+                                        <Image 
+                                            src={networkType === WalletAdapterNetwork.Devnet ? "/devnet.svg" : "/mainnet.svg"} 
+                                            width={20} 
+                                            height={20} 
+                                            alt={networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"} 
+                                        />
                                 <span className="font-medium">
                                     Current Network: {networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"}
                                 </span>
+                                    </div>
+                                </div>
                                 <Button 
                                     onClick={toggleNetwork}
                                     variant={networkType === WalletAdapterNetwork.Devnet ? "gradient" : "gradientGreen"}
-                                    size="sm"
-                                    className="flex items-center gap-2"
+                                    className="flex items-center justify-center gap-2 w-full"
                                 >
-                                    <div className={`w-3 h-3 rounded-full ${networkType === WalletAdapterNetwork.Devnet ? "bg-white" : "bg-white"}`}></div>
+                                    <Image 
+                                        src={networkType === WalletAdapterNetwork.Devnet ? "/mainnet.svg" : "/devnet.svg"} 
+                                        width={18} 
+                                        height={18} 
+                                        alt={networkType === WalletAdapterNetwork.Devnet ? "Mainnet" : "Devnet"} 
+                                    />
                                     Switch to {networkType === WalletAdapterNetwork.Devnet ? "Mainnet" : "Devnet"}
                                 </Button>
                             </div>
@@ -173,10 +195,13 @@ export default function TokenCreator() {
                 </div>
                 
                 <div className="md:col-span-2">
-                    <Card className="max-w-md mx-auto border-purple-200 shadow-lg">
-                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50">
+                    <Card className="max-w-md mx-auto border-purple-200 dark:border-purple-900 shadow-lg dark:shadow-gray-900/20">
+                        <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/40 dark:to-blue-950/40">
+                            <div className="flex items-center gap-2">
+                                <Image src="/wallet.svg" width={24} height={24} alt="Wallet" />
                             <CardTitle className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Token Creator</CardTitle>
-                            <CardDescription>Create your own SPL token on Solana {networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"}</CardDescription>
+                            </div>
+                            <CardDescription className="dark:text-gray-400">Create your own SPL token on Solana {networkType === WalletAdapterNetwork.Devnet ? "Devnet" : "Mainnet"}</CardDescription>
                         </CardHeader>
                         
                         <CardContent className="space-y-4 pt-6">
@@ -188,7 +213,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., My Awesome Token" 
                                     value={tokenName}
                                     onChange={(e) => setTokenName(e.target.value)}
-                                    className="border-blue-100 focus:border-blue-300"
+                                    className="border-blue-100 focus:border-blue-300 dark:border-blue-900 dark:focus:border-blue-700 dark:bg-gray-800"
                                 />
                             </div>
                             
@@ -200,7 +225,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., MAT" 
                                     value={tokenSymbol}
                                     onChange={(e) => setTokenSymbol(e.target.value)}
-                                    className="border-blue-100 focus:border-blue-300"
+                                    className="border-blue-100 focus:border-blue-300 dark:border-blue-900 dark:focus:border-blue-700 dark:bg-gray-800"
                                 />
                             </div>
                             
@@ -212,7 +237,7 @@ export default function TokenCreator() {
                                     placeholder="e.g., https://example.com/image.png" 
                                     value={tokenImage}
                                     onChange={(e) => setTokenImage(e.target.value)}
-                                    className="border-blue-100 focus:border-blue-300"
+                                    className="border-blue-100 focus:border-blue-300 dark:border-blue-900 dark:focus:border-blue-700 dark:bg-gray-800"
                                 />
                             </div>
                             
@@ -226,12 +251,18 @@ export default function TokenCreator() {
                                     max={9}
                                     value={tokenDecimals || ""}
                                     onChange={(e) => setTokenDecimals(Number(e.target.value))}
-                                    className="border-blue-100 focus:border-blue-300"
+                                    className="border-blue-100 focus:border-blue-300 dark:border-blue-900 dark:focus:border-blue-700 dark:bg-gray-800"
                                 />
                             </div>
                             
                             {txStatus && (
-                                <div className={`p-3 rounded text-sm ${txStatus.startsWith("Error") ? "bg-red-100 text-red-800" : txStatus === "Token created successfully!" ? "bg-green-100 text-green-800" : "bg-blue-100 text-blue-800"}`}>
+                                <div className={`p-3 rounded text-sm ${
+                                    txStatus.startsWith("Error") 
+                                        ? "bg-red-100 dark:bg-red-950/50 text-red-800 dark:text-red-300" 
+                                        : txStatus === "Token created successfully!" 
+                                            ? "bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300" 
+                                            : "bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300"
+                                }`}>
                                     {txStatus}
                                     {txLink && (
                                         <a href={txLink} target="_blank" rel="noopener noreferrer" className="block mt-1 underline">
@@ -249,7 +280,19 @@ export default function TokenCreator() {
                                 className="w-full"
                                 variant="gradient"
                             >
-                                {isLoading ? "Creating token..." : wallet.connected ? "Create Token" : "Connect wallet to create token"}
+                                {isLoading ? (
+                                    "Creating token..."
+                                ) : wallet.connected ? (
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Image src="/wallet.svg" width={20} height={20} alt="Wallet" />
+                                        <span>Create Token</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Image src="/wallet.svg" width={20} height={20} alt="Wallet" />
+                                        <span>Connect wallet to create token</span>
+                                    </div>
+                                )}
                             </Button>
                         </CardFooter>
                     </Card>

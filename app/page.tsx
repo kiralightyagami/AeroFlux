@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400">AeroFlux</h1>
+        <h1 className="text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 tracking-tight">AeroFlux</h1>
         <p className="text-xl text-muted-foreground">A powerful suite of Solana tools</p>
       </div>
       
@@ -64,7 +64,7 @@ export default function Home() {
       </div>
       
       <div className="max-w-4xl mx-auto mt-16 text-center">
-        <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">About AeroFlux</h2>
+        <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 tracking-tight">About AeroFlux</h2>
         <div className="text-muted-foreground">
           <p className="mb-4">
             AeroFlux provides an intuitive and streamlined interface for interacting with the Solana blockchain. 
@@ -79,7 +79,7 @@ export default function Home() {
       </div>
       
       <footer className="mt-20 pt-10 border-t">
-        <h2 className="text-2xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-emerald-400">How Our Tools Work</h2>
+        <h2 className="text-2xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-emerald-400 tracking-tight">How Our Tools Work</h2>
         
         <div className="grid gap-10 md:grid-cols-3">
           <div>
