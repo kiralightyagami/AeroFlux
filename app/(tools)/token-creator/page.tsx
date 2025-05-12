@@ -27,7 +27,7 @@ import { WalletInfo } from "@/components/ui/wallet-info";
 import { useWalletContext } from "@/components/WalletContext";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import Image from "next/image";
-
+//token creator page
 export default function TokenCreator() {
     const [tokenName, setTokenName] = useState("");
     const [tokenSymbol, setTokenSymbol] = useState("");
