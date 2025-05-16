@@ -10,6 +10,7 @@ import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { WalletContextProvider } from "./WalletContext";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
+import ClientOnly from "./ClientOnly";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -39,14 +40,16 @@ export default function AppWalletProvider({
   };
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <WalletContextProvider networkType={networkType} toggleNetwork={toggleNetwork} endpoint={endpoint}>
-            {children}
-          </WalletContextProvider>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <ClientOnly>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <WalletContextProvider networkType={networkType} toggleNetwork={toggleNetwork} endpoint={endpoint}>
+              {children}
+            </WalletContextProvider>
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </ClientOnly>
   );
 }

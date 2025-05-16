@@ -2,12 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { cn } from "@/lib/utils";
 import { useWalletContext } from "@/components/WalletContext";
 import Image from "next/image";
+import { LucideIcon } from "lucide-react";
+import ClientOnlyWalletButton from "./client-only-wallet-button";
 
-const tools = [
+interface Tool {
+  name: string;
+  href: string;
+  icon?: LucideIcon;
+}
+
+const tools: Tool[] = [
   { name: "Swap", href: "/swap" },
   { name: "Token Creator", href: "/token-creator" },
   { name: "Airdrop", href: "/airdrop" },
@@ -35,12 +42,13 @@ export function Navigation() {
               key={tool.name}
               href={tool.href}
               className={cn(
-                "px-2 py-1 text-sm font-medium rounded-md transition-colors",
+                "px-2 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-1",
                 isActive
                   ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-sm"
                   : "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-white/50 dark:hover:bg-gray-700/50"
               )}
             >
+              {tool.icon && <tool.icon size={14} />}
               {tool.name}
             </Link>
           );
@@ -55,9 +63,7 @@ export function Navigation() {
             </div>
           </div>
         )}
-        <div className="border border-transparent hover:border-slate-900 dark:hover:border-slate-100 rounded overflow-hidden">
-          <WalletMultiButton style={{ padding: '4px 8px', height: 'auto', fontSize: '14px', background: 'linear-gradient(to right, #7c3aed, #3b82f6)' }} />
-        </div>
+        <ClientOnlyWalletButton />
       </div>
     </div>
   );

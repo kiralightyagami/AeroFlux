@@ -1,7 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter, Linkedin, Sparkles, MessageSquare, Code, FileCode } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type ToolType = {
   name: string;
@@ -36,6 +39,46 @@ const tools: ToolType[] = [
 ];
 
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleOpenAssistant = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+   
+    
+    // Method 1
+    const assistantButton = document.querySelector('[id="ai-button"]') || 
+                          document.querySelector('[aria-label="Open AI assistant"]') ||
+                          document.querySelector('[aria-label="AI assistant"]') ||
+                          document.querySelector('[class*="ai-assistant"]') ||
+                          document.querySelector('[class*="ai-button"]');
+    
+    if (assistantButton instanceof HTMLElement) {
+      assistantButton.click();
+      return;
+    }
+    
+    // Method 2
+    const floatingButtons = document.querySelectorAll('button');
+    const bottomRightButtons = Array.from(floatingButtons).filter(button => {
+      const rect = button.getBoundingClientRect();
+      const isBottomRight = rect.bottom > window.innerHeight - 100 && rect.right > window.innerWidth - 100;
+      return isBottomRight;
+    });
+    
+    if (bottomRightButtons.length > 0) {
+      bottomRightButtons[0].click();
+      return;
+    }
+    
+    //If no button found
+    alert("Could not automatically open the AI Assistant. Please look for an AI button at the bottom right of your screen.");
+  };
+  
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="relative">
@@ -75,6 +118,91 @@ export default function Home() {
             </CardFooter>
           </Card>
         ))}
+      </div>
+      
+      <div className="bg-gray-950 text-white rounded-lg p-8 my-16">
+        <h2 className="text-3xl font-bold mb-4 text-center text-purple-500">AI-Powered Assistance</h2>
+        <p className="text-center mb-10">
+          Get real-time help with our Gemini-powered AI assistant. Ask questions about Solana, get help
+          with tools, and receive step-by-step guidance.
+        </p>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-8">
+            <div className="flex items-start gap-3">
+              <Sparkles className="h-6 w-6 text-purple-500 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Real-time Streaming Responses</h3>
+                <p className="text-gray-300">Watch as the AI crafts responses in real-time, making interactions feel natural and immediate.</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <MessageSquare className="h-6 w-6 text-purple-500 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Rich Markdown Support</h3>
+                <p className="text-gray-300">Receive beautifully formatted responses with support for code blocks, tables, lists, and more.</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <Code className="h-6 w-6 text-purple-500 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Code Syntax Highlighting</h3>
+                <p className="text-gray-300">Get code examples with proper syntax highlighting to help you implement solutions quickly.</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <FileCode className="h-6 w-6 text-purple-500 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Context-Aware Assistance</h3>
+                <p className="text-gray-300">The assistant understands AeroFlux tools and provides contextually relevant help.</p>
+              </div>
+            </div>
+            
+            {isMounted ? (
+              <Link href="/#" className="w-full">
+                <Button 
+                  className="mt-4 w-full" 
+                  variant="gradient" 
+                  onClick={handleOpenAssistant}
+                >
+                  Try AI Assistant
+                </Button>
+              </Link>
+            ) : (
+              <Button 
+                className="mt-4 w-full" 
+                variant="gradient"
+              >
+                Try AI Assistant
+              </Button>
+            )}
+          </div>
+          
+          <div className="bg-gray-900 p-6 rounded-lg border border-gray-800">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-blue-400">AeroFlux AI Assistant</h3>
+            </div>
+            
+            <div className="p-4 bg-gray-800 rounded-lg mb-4">
+              <p className="text-gray-300 mb-2">How do I create a custom token on Solana?</p>
+            </div>
+            
+            <div className="p-4 bg-gray-800 bg-opacity-60 rounded-lg">
+              <p className="mb-2">To create a custom token on Solana using AeroFlux:</p>
+              <ol className="list-decimal list-inside space-y-1 ml-2 text-gray-300">
+                <li>Navigate to the Token Creator tool</li>
+                <li>Connect your wallet</li>
+                <li>Fill in token details (name, symbol, decimals)</li>
+                <li>Set your initial supply</li>
+                <li>Click "Create Token" to deploy it to the blockchain</li>
+              </ol>
+              <p className="mt-2">The token will be created and added to your wallet automatically. You can then manage it like any other SPL token!</p>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div className="max-w-4xl mx-auto mt-16 text-center">
