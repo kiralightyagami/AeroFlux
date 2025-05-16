@@ -50,7 +50,7 @@ Get real-time help with our Gemini-powered AI assistant:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/AeroFlux.git
+git clone https://github.com/kiralightyagami/AeroFlux.git
 cd AeroFlux
 ```
 

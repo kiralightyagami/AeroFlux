@@ -46,10 +46,10 @@ export function AIHelpWidget({ className }: AIHelpWidgetProps) {
               </div>
               
               <div className="pt-12 h-full">
-                <AIAssistant 
+              <AIAssistant 
                   initialMessage="How can I help you with AeroFlux tools today? Ask me about token creation, swapping, or airdrop features."
                   className="shadow-none h-full border-none bg-transparent"
-                />
+              />
               </div>
             </Card>
           </div>
