@@ -127,5 +127,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 <div align="center">
   <p>Built for the Solana ecosystem with ❤️</p>
-  <p>© 2024 AeroFlux</p>
+  <p>© 2025 AeroFlux</p>
 </div>
