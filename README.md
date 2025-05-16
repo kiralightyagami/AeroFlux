@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AeroFlux
+
+<div align="center">
+  <img src="public/aeroflux-logo.png" alt="AeroFlux Logo" width="200"/>
+  <p><strong>A powerful suite of Solana tools for developers and users</strong></p>
+</div>
+
+## Overview
+
+AeroFlux provides an intuitive and streamlined interface for interacting with the Solana blockchain. Whether you're a developer, trader, or blockchain enthusiast, our tools help you harness the power of Solana with ease.
+
+Built with performance and user experience in mind, AeroFlux supports token swaps through Jupiter aggregator, custom SPL token creation, and convenient access to testnet resources for development.
+
+## Features
+
+### 🪙 Token Creator
+Create your own SPL tokens on Solana with a simple interface:
+- Customize token details (name, symbol, decimals)
+- Set initial supply and mint authority
+- Deploy to Devnet or Mainnet
+- Full SPL token standard compliance
+
+### 💱 Token Swap
+Swap tokens using Jupiter aggregator:
+- Best exchange rates with minimal slippage
+- Support for SOL, USDC, USDT and other tokens
+- Real-time price feeds
+- Secure transaction execution
+
+### 💸 Airdrop
+Request SOL tokens on Devnet for testing:
+- Simple interface for requesting test tokens
+- Quick confirmation
+- Perfect for development and testing
+
+### 🤖 AI Assistant
+Get real-time help with our Gemini-powered AI assistant:
+- Ask questions about Solana and our tools
+- Receive step-by-step guidance
+- Code examples with syntax highlighting
+- Rich markdown support
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ and npm/pnpm
+- Git
 
+### Installation
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/AeroFlux.git
+cd AeroFlux
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+pnpm install
+# or
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables
+```bash
+cp .env.example .env.local
+```
+Then edit `.env.local` with your own values:
+- For the AI Assistant functionality, get a Gemini API key from Google AI Studio
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server
+```bash
+pnpm dev
+# or
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-To learn more about Next.js, take a look at the following resources:
+## Technology Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend**: Next.js 15, React 19, TailwindCSS 4
+- **Blockchain**: Solana Web3.js, SPL Token, Raydium SDK
+- **Wallet**: Solana Wallet Adapter
+- **AI**: Google Gemini API
+- **Styling**: Tailwind CSS, shadcn/ui components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+Deploy AeroFlux on your preferred hosting platform:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Build the project
+```bash
+pnpm build
+# or
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Start the production server
+```bash
+pnpm start
+# or
+npm run start
+```
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- [Solana Foundation](https://solana.com)
+- [Jupiter Aggregator](https://jup.ag)
+- [Google Gemini API](https://ai.google.dev)
+
+---
+
+<div align="center">
+  <p>Built for the Solana ecosystem with ❤️</p>
+  <p>© 2024 AeroFlux</p>
+</div>
