@@ -79,7 +79,7 @@ npm run dev
 
 ## Technology Stack
 
-- **Frontend**: Next.js 15, React 19, TailwindCSS 4
+- **Frontend**: Next.js 15,TailwindCSS 4
 - **Blockchain**: Solana Web3.js, SPL Token, Raydium SDK
 - **Wallet**: Solana Wallet Adapter
 - **AI**: Google Gemini API
